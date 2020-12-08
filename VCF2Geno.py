@@ -203,13 +203,11 @@ def main(argv):
         print('VCF2geno.py -i <inFile> -o <outFile>\n\n \
 		example usage: \n\n\
 		python VCF2geno.py 	-i TASSELoutputFile.vcf \
-							-o new.vcf \n\n \
-        Optional Arguments:\n \
-        -f "0.2,0.02,0.02,0.3,30.0"\n')
+							-o new.vcf \n\n')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('vcf2geno.py -i <inFile> -o <outFile>\n')
+            print('VCF2geno.py -i <inFile> -o <outFile>\n')
             sys.exit()
         elif opt in ("-i", "--inFile"):
             inputFile = arg

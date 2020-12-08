@@ -84,45 +84,7 @@ def processDataFrame(vcfDF, FilterStep=0, outputFile=''):
                '1/1': '2', './.': '.'}).value_counts(normalize=True).to_dict()
 
     return individualDict, markerDict
-
-def filterIndividuals(individualDict, newVCFdf, filters, log_file):
-    """
-    Filters individuals (columns) given a missing data allowance BUT is deprecated for filterMissing method.
-    """ 
-    fail_counter=0
-    log_file.write("Failed Individuals\n")
-    for individualID, frequencyDict in individualDict.items():
-        if frequencyDict['.'] > 0.30:
-            newVCFdf.drop([individualID],axis=1)
-            fail_counter+=1
-            individualMissingStats="{}\t{}\n".format(individualID, frequencyDict['.'])
-            log_file.write(individualMissingStats)
-
-    log_file.write("\nFailed Individuals Percent: {:.2f}\n".format(fail_counter/len(individualDict)*100))    
-    print("Failed Individuals Percent: {:.2f}\n".format(fail_counter/len(individualDict)*100))
-    log_file.flush()
-    return None
-
-
-def filterMissingMarkers(markerDict, newVCFdf, filters, log_file):
-    """
-    Filters markers (rows) given a missing data allowance BUT is deprecated for filterMissing method.
-    """ 
-    fail_counter=0
-    #iterates through rows of frequencyDict and markerDict and filters out markers based on filters
-    for i, frequencyDict in markerDict.items():
-        #missing marker data allowance
-        if frequencyDict['.'] > 0.3:
-            newVCFdf.drop([i],axis=0)
-            fail_counter+=1
-    
-    log_file.write("\nFailed Markers Percent: {:.2f}\n".format(fail_counter/len(markerDict)*100))    
-    print("Failed Markers Percent: {:.2f}\n".format(fail_counter/len(markerDict)*100))
-    log_file.flush()
-    log_file.close()
-    return None        
-
-
+   
 def filterMissing(vcfDict, newVCFdf, filters, log_file, filterType):
     """
     Filters rows (markers) or columns (individuals) for missing data based on given filters.
@@ -223,6 +185,7 @@ def masterFilter(markerDict, individualDict, newVCFdf, filters, log_file, output
     individualDict, markerDict =filterRareMarkers(markerDict, newVCFdf, filters[3], log_file)
     individualDict, markerDict =filterMissing(individualDict, newVCFdf, filters[0], log_file, filterType='individual')
     processDataFrame(newVCFdf, 'final', outputFile)
+    
     #logic check
     print("Post-filter: {}".format(newVCFdf.shape))
 
@@ -265,11 +228,6 @@ def main(argv):
 
     vcfDF=importVCF(inputFile)
     individualDict, markerDict =processDataFrame(vcfDF)
-    #filterIndividuals(individualDict, newVCFdf, filters, log_file)
-    #filterMissingMarkers(markerDict, newVCFdf, filters, log_file)
-    #filterMissing(vcfDict, newVCFdf, filters, log_file, filterType)
-    #filterHeterozygousMarkers(markerDict, newVCFdf, filters, log_file)
-    #filterRareMarkers(markerDict, newVCFdf, filters, log_file)
     masterFilter(markerDict, individualDict, vcfDF, filters, log_file, outputFile)
 
     log_file.close()

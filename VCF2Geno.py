@@ -2,7 +2,7 @@
 
 """
 Script utilizes pandas dataframes to parse a VCF file and filter individuals and markers based on user provided filters.
-Logic checks are used instead of Unit Tests as the logfile is sufficient to check logic the corresponding method.
+Logic checks are used instead of Unit Tests as the logfile is sufficient to check logic of each method.
 """
 
 import sys
@@ -83,8 +83,8 @@ def processDataFrame(vcfDF, FilterStep=0, outputFile=''):
         markerDict[i]= row[9:].str.split(':').str.get(0).map({'0/0': '0', '1/0': '1', '0/1': '1',
                '1/1': '2', './.': '.'}).value_counts(normalize=True).to_dict()
 
-    return individualDict, markerDict
-   
+    return individualDict, markerDict    
+
 def filterMissing(vcfDict, newVCFdf, filters, log_file, filterType):
     """
     Filters rows (markers) or columns (individuals) for missing data based on given filters.
@@ -185,7 +185,6 @@ def masterFilter(markerDict, individualDict, newVCFdf, filters, log_file, output
     individualDict, markerDict =filterRareMarkers(markerDict, newVCFdf, filters[3], log_file)
     individualDict, markerDict =filterMissing(individualDict, newVCFdf, filters[0], log_file, filterType='individual')
     processDataFrame(newVCFdf, 'final', outputFile)
-    
     #logic check
     print("Post-filter: {}".format(newVCFdf.shape))
 

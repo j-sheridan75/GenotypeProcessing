@@ -1,9 +1,8 @@
 #!/usr/bin/python -tt
 
 """
-Script parses VCF file and transforms it into a 0,1,2 typed genotype file. 
-In the process it also filters.
-Logfile= logic checks
+Script utilizes pandas dataframes to parse a VCF file and filter individuals and markers based on user provided filters.
+Logic checks are used instead of Unit Tests as the logfile is sufficient to check logic the corresponding method.
 """
 
 import sys

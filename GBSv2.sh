@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#shell script to run the TASSEL GBSv2 pipeline and filter vcf
+#shell script to run the TASSEL GBSv2 pipeline and filter vcf output file
 
 ## set variables
 SEQUENCE=".data/fastq/"
@@ -18,7 +18,7 @@ QSCORE="./data/intermediate/testTags_qual.txt"
 H5="./data/intermediate/test_H5.h5"
 VCF="./data/intermediate/test_VCF.vcf"
 H5CLOSED="./data/intermediate/test_H5CLOSED.h5"
-OUT="./GBSv2pipeline.out"
+OUT="./data/GBSv2pipeline.out"
 
 
 ## SNP Calling on Genotype-by-sequencing data using TASSEL GBSv2 pipeline
@@ -63,4 +63,4 @@ perl /home/solutions/tassel-5-standalone/run_pipeline.pl -Xms10G -Xmx10G -BuildU
 perl /home/solutions/tassel-5-standalone/run_pipeline.pl -h5 ${H5CLOSED} -export ${VCF} -exportType VCF >> ${OUT}
 
 ## python script to parse VCF and filter individuals and markers
-python3 time python3 ./VCF2Geno.py -i ${VCF} -o ./TESTout.vcf
+time python3 ./VCF2Geno.py -i ${VCF} -o ./TESTout.vcf

@@ -144,7 +144,7 @@ def filterHeterozygousMarkers(markerDict, newVCFdf, filters, log_file):
 
 def filterRareMarkers(markerDict, newVCFdf, filters, log_file):
     """
-    Filters markers based on minor allele frequency (MAF).  Rare variants in crops that are highly inbred should be removed as they are most likely sequencing errors.
+    Filters markers based on minor allele frequency (MAF).  This is not a standard MAF calculation based on Hardy-Weinberg Equilibrium but rather a requirement of the homozygous recessive genotype at the specified MAF.  Rare variants in crops that are highly inbred should be removed as they are most likely sequencing errors.
     A common filter would require the minor allele to appear in at least 5% of the population.  Diversity panels commonly would allow the minor allele frequency to be as low as 2%.
     """
     #logic check
